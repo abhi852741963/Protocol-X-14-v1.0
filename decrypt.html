@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>./decrypt hidden.log | Protocol X-14</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+    }
+
+    .terminal {
+      border: 2px solid #00ffcc;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      background-color: #0a0a0a;
+      box-shadow: 0 0 20px #00ffcc80;
+    }
+
+    .header {
+      color: #ffffff;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .line::before {
+      content: "> ";
+      color: #00ffcc;
+    }
+
+    .line {
+      margin: 10px 0;
+      white-space: pre-wrap;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 20px;
+      background: #00ffcc;
+      animation: blink 1s step-start infinite;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      50% {
+        background: transparent;
+      }
+    }
+
+    .back {
+      margin-top: 30px;
+      display: inline-block;
+      color: #00ffcc;
+      text-decoration: none;
+    }
+
+    .back:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="header">[Decrypting: hidden.log - Skill Protocol Loaded]</div>
+
+    <div class="line">Programming: C, C++ (Arduino), Python, HTML, CSS, JS</div>
+    <div class="line">AI/ML: YOLOv8, Teachable Machine, Emotion Recognition</div>
+    <div class="line">Cybersecurity: Content Filtering, PG-13 Monitoring, Stealth Apps</div>
+    <div class="line">Web Development: GitHub Pages, Responsive UI, Terminal-style UX</div>
+    <div class="line">Robotics: RC Cars, Smart Irrigation, GPS Navigation, Rescue Rovers</div>
+    <div class="line">Electronics: Relay Modules, Sensors (DHT11, Ultrasonic), Solar Cells</div>
+    <div class="line">Tools: Tinkercad, GitHub, Arduino IDE, Google Colab</div>
+    <div class="line">Soft Skills: Innovation, Team Collaboration, Cyber Investigation</div>
+
+    <div class="line">...</div>
+    <div class="line"><span class="cursor"></span></div>
+
+    <a href="index.html" class="back">&larr; Return to Command Menu</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>./whoami | Protocol X-14</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+    }
+
+    .terminal {
+      border: 2px solid #00ffcc;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      background-color: #0a0a0a;
+      box-shadow: 0 0 20px #00ffcc80;
+    }
+
+    .header {
+      color: #ffffff;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .line::before {
+      content: "> ";
+      color: #00ffcc;
+    }
+
+    .line {
+      margin: 10px 0;
+      white-space: pre-wrap;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 20px;
+      background: #00ffcc;
+      animation: blink 1s step-start infinite;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      50% {
+        background: transparent;
+      }
+    }
+
+    .back {
+      margin-top: 30px;
+      display: inline-block;
+      color: #00ffcc;
+      text-decoration: none;
+    }
+
+    .back:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="header">[Executing: ./whoami]</div>
+
+    <div class="line">Name: Abhinav Ram M.S</div>
+    <div class="line">Age: 14</div>
+    <div class="line">Location: India</div>
+    <div class="line">Interests: Robotics, AI, Cybersecurity, Tinkering, Innovation, Football, Chess</div>
+    <div class="line">Favorite Football Team: Barcelona❤️💙</div>
+    <div class="line">Favorite Innovator: Elon Musk</div>
+    <div class="line">Favorite Chess Players: Hikaru Nakamura, Magnus Carlsen</div>
+    <div class="line">Current Focus: Learning by building cool tech projects and sharing them on GitHub</div>
+    <div class="line">Notable Projects: PG-13 Monitor, Smart Irrigation, RC GPS Car, Jarvis AI Assistant</div>
+    <div class="line">Competitions: UDAAN TechNex (3rd in 2023, 2nd in 2024), All India Bhavan's Science Exhibition, Evolve India Robotics Olympiad (Grade A Achievers at National Level in 2024 & 2025)</div>
+
+    <div class="line">...</div>
+    <div class="line"><span class="cursor"></span></div>
+
+    <a href="index.html" class="back">← Return to Command Menu</a>
+  </div>
+</body>
+</html>

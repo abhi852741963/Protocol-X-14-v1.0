@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Protocol X-14 v1.0 | GitHub & Links</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    .terminal {
+      border: 2px solid #00ffcc;
+      padding: 20px 40px;
+      max-width: 800px;
+      margin: auto;
+      background-color: #000000;
+      box-shadow: 0 0 20px #00ffcc80;
+      animation: flicker 1.5s infinite alternate;
+      position: relative;
+    }
+
+    @keyframes flicker {
+      from { box-shadow: 0 0 10px #00ffcc33; }
+      to { box-shadow: 0 0 30px #00ffcc99; }
+    }
+
+    .title {
+      font-size: 24px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .link-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .link-list li {
+      margin: 15px 0;
+    }
+
+    a {
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+
+    .prompt::before {
+      content: "> ";
+      color: #00ffcc;
+    }
+
+    .back {
+      margin-top: 30px;
+      display: inline-block;
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 20px;
+      background: #00ffcc;
+      animation: blink 1s step-start infinite;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      50% {
+        background: transparent;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="title">[PROTOCOL X-14 v1.0 - GITHUB & LINKS]</div>
+
+    <ul class="link-list">
+      <li class="prompt">GitHub Profile: <a href="https://github.com/abhi852741963" target="_blank" rel="noopener">abhi852741963</a></li>
+      <li class="prompt">Instagram: <a href="https://www.instagram.com/__.abhinav.ram.ms._/" target="_blank" rel="noopener">__.abhinav.ram.ms._</a></li>
+      <li class="prompt">Old Portfolio: <a href="https://abhi852741963.github.io/website_/index.html" target="_blank" rel="noopener">Portfolio Website</a></li>
+      <li class="prompt">Chess.com: <a href="https://www.chess.com/member/elreypulga19" target="_blank" rel="noopener">elreypulga19</a></li>
+      <li class="prompt">Tinkercad: <a href="https://www.tinkercad.com/users/2y88rVNq5Sm-abhinavramms5" target="_blank" rel="noopener">abhinavramms5</a></li>
+    </ul>
+
+    <a href="index.html" class="back">← Return to Command Menu</a>
+
+    <div class="prompt"><span class="cursor"></span></div>
+  </div>
+</body>
+</html>

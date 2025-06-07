@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Protocol X-14 v1.0 | Projects</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+      overflow: hidden;
+    }
+
+    .terminal {
+      border: 2px solid #00ffcc;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      background-color: #000000;
+      box-shadow: 0 0 20px #00ffcc80;
+      animation: flicker 1.5s infinite alternate;
+    }
+
+    @keyframes flicker {
+      from { box-shadow: 0 0 10px #00ffcc33; }
+      to { box-shadow: 0 0 30px #00ffcc99; }
+    }
+
+    .title {
+      font-size: 24px;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .project {
+      margin: 15px 0;
+      color: #00ffcc;
+    }
+
+    /* Remove link styling since no URLs */
+    .project-name {
+      font-weight: bold;
+      cursor: default;
+    }
+
+    .description {
+      color: #009977;
+      font-style: italic;
+      margin-left: 15px;
+      margin-top: 3px;
+      cursor: default;
+    }
+
+    .prompt::before {
+      content: "> ";
+      color: #00ffcc;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 20px;
+      background: #00ffcc;
+      animation: blink 1s step-start infinite;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      50% {
+        background: transparent;
+      }
+    }
+
+    .back {
+      margin-top: 30px;
+      display: inline-block;
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="title">[PROTOCOL X-14 v1.0 - PROJECTS LIST]</div>
+
+    <div class="project prompt">
+      <div class="project-name">PG-13 Monitor</div>
+      <div class="description">Realtime shield filtering and banning explicit words instantly.</div>
+    </div>
+
+    <div class="project prompt">
+      <div class="project-name">Smart Irrigation</div>
+      <div class="description">Automated plant watering system that thinks and acts like a gardener.</div>
+    </div>
+
+    <div class="project prompt">
+      <div class="project-name">RC GPS Navigator</div>
+      <div class="description">An intelligent remote car that senses, navigates, and avoids obstacles on its own.</div>
+    </div>
+
+    <div class="project prompt">
+      <div class="project-name">Jarvis Voice Assistant</div>
+      <div class="description">Your personal AI helper that listens and acts with smart commands.</div>
+    </div>
+
+    <div class="project prompt">
+      <div class="project-name">AIPTCS</div>
+      <div class="description">AI-powered traffic signal control using YOLOv8 for smooth, smart city flow.</div>
+    </div>
+
+    <a href="index.html" class="back">← Return to Command Menu</a>
+
+    <div class="prompt"><span class="cursor"></span></div>
+  </div>
+</body>
+</html>

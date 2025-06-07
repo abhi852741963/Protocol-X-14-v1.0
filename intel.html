@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Protocol X-14 v1.0 | Timeline & Achievements</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    .terminal {
+      border: 2px solid #00ffcc;
+      padding: 20px 40px;
+      max-width: 800px;
+      margin: auto;
+      background-color: #000000;
+      box-shadow: 0 0 20px #00ffcc80;
+      animation: flicker 1.5s infinite alternate;
+      position: relative;
+    }
+
+    @keyframes flicker {
+      from { box-shadow: 0 0 10px #00ffcc33; }
+      to { box-shadow: 0 0 30px #00ffcc99; }
+    }
+
+    .title {
+      font-size: 24px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Timeline container */
+    .timeline {
+      position: relative;
+      margin-left: 20px;
+      padding-left: 20px;
+      border-left: 2px solid #00ffcc;
+    }
+
+    /* Timeline event */
+    .event {
+      position: relative;
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    /* Circle marker on the line */
+    .event::before {
+      content: "";
+      position: absolute;
+      left: -11px;
+      top: 5px;
+      width: 14px;
+      height: 14px;
+      background-color: #00ffcc;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00ffcc80;
+    }
+
+    .event-year {
+      font-weight: bold;
+      color: #ff0066;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .description {
+      font-style: italic;
+      color: #009977;
+      margin-left: 5px;
+      white-space: pre-line;
+    }
+
+    .prompt::before {
+      content: "> ";
+      color: #00ffcc;
+    }
+
+    .back {
+      margin-top: 30px;
+      display: inline-block;
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 20px;
+      background: #00ffcc;
+      animation: blink 1s step-start infinite;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      50% {
+        background: transparent;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="title">[PROTOCOL X-14 v1.0 - TIMELINE & ACHIEVEMENTS]</div>
+
+    <div class="timeline">
+
+      <div class="event prompt">
+        <div class="event-year">2023</div>
+        <div class="description">
+          - Participated in UDAAN TechNex; secured 3rd place.<br>
+          - Built Smart Irrigation System: automated watering powered by sensors.<br>
+          - Created AI Face Recognition Attendance System using YOLOv8; logs attendance into XLSX file.
+        </div>
+      </div>
+
+      <div class="event prompt">
+        <div class="event-year">2024</div>
+        <div class="description">
+          - Won Consolation Prize at School Science Exhibition.<br>
+          - Participated in UDAAN TechNex; secured 2nd place.<br>
+          - Evolve India Robotics Olympiad: Grade A Achievers at State Level.<br>
+          - Developed RC GPS Navigator: autonomous car with obstacle avoidance.<br>
+          - Participated in All India Bhavan's Science Exhibition, Jaipur.
+        </div>
+      </div>
+
+      <div class="event prompt">
+        <div class="event-year">2025</div>
+        <div class="description">
+          - Evolve India Robotics Olympiad: Grade A Achievers at National Level.<br>
+          - Built Search & Rescue Rover with Human Detection.<br>
+          - Created DSSC - Dye Sensitized Solar Cell project.<br>
+          - Developed PG-13 Monitor: realtime content filter for explicit words.<br>
+          - Created Jarvis AI: voice assistant for smart commands.<br>
+          - Built ForgetMeNot: private space app for logging memories, moods, and growth.
+        </div>
+      </div>
+
+    </div>
+
+    <a href="index.html" class="back">← Return to Command Menu</a>
+
+    <div class="prompt"><span class="cursor"></span></div>
+  </div>
+</body>
+</html>

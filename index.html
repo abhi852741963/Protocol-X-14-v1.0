@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Protocol X-14 v1.0</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+      overflow: hidden;
+    }
+
+    .terminal {
+      border: 2px solid #00ffcc;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      background-color: #000000;
+      box-shadow: 0 0 20px #00ffcc80;
+      animation: flicker 1.5s infinite alternate;
+    }
+
+    @keyframes flicker {
+      from { box-shadow: 0 0 10px #00ffcc33; }
+      to { box-shadow: 0 0 30px #00ffcc99; }
+    }
+
+    .title {
+      font-size: 24px;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .cmd {
+      margin: 15px 0;
+      color: #00ffcc;
+    }
+
+    .cmd a {
+      color: #00ffcc;
+      text-decoration: none;
+    }
+
+    .cmd a:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+
+    .prompt::before {
+      content: "> ";
+      color: #00ffcc;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 20px;
+      background: #00ffcc;
+      animation: blink 1s step-start infinite;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      50% {
+        background: transparent;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="title">[PROTOCOL X-14 v1.0 - COMMAND MENU]</div>
+
+    <div class="cmd prompt"><a href="whoami.html">./whoami</a> <span class="comment">// About Me</span></div>
+    <div class="cmd prompt"><a href="projects.html">./projects --list</a> <span class="comment">// Projects</span></div>
+    <div class="cmd prompt"><a href="intel.html">./intel_feed</a> <span class="comment">// Timeline & Achievements</span></div>
+    <div class="cmd prompt"><a href="github.html">./access --github</a> <span class="comment">// GitHub & Links</span></div>
+    <div class="cmd prompt"><a href="contact.html">./contact -t stealth</a> <span class="comment">// Contact Me</span></div>
+    <div class="cmd prompt"><a href="decrypt.html">./decrypt hidden.log</a> <span class="comment">// Secret File</span></div>
+
+    <div class="cmd prompt"><span class="cursor"></span></div>
+  </div>
+</body>
+</html>

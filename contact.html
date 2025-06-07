@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Protocol X-14 v1.0 | Contact - Stealth Mode</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    .terminal {
+      border: 2px solid #00ffcc;
+      padding: 20px 40px;
+      max-width: 800px;
+      margin: auto;
+      background-color: #000000;
+      box-shadow: 0 0 20px #00ffcc80;
+      animation: flicker 1.5s infinite alternate;
+      position: relative;
+    }
+
+    @keyframes flicker {
+      from { box-shadow: 0 0 10px #00ffcc33; }
+      to { box-shadow: 0 0 30px #00ffcc99; }
+    }
+
+    .title {
+      font-size: 24px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .contact-list {
+      list-style-type: none;
+      padding-left: 0;
+      font-size: 18px;
+    }
+
+    .contact-list li {
+      margin: 12px 0;
+    }
+
+    a {
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+
+    .prompt::before {
+      content: "> ";
+      color: #00ffcc;
+    }
+
+    .back {
+      margin-top: 30px;
+      display: inline-block;
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 20px;
+      background: #00ffcc;
+      animation: blink 1s step-start infinite;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      50% {
+        background: transparent;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="title">[PROTOCOL X-14 v1.0 - CONTACT (STEALTH MODE)]</div>
+
+    <ul class="contact-list">
+      <li class="prompt">Email(Main): <a href="mailto:abhinavramms5@gmail.com">abhinavramms5@gmail.com</a></li>
+      <li class="prompt">Email: <a href="mailto:abhinavramms10@gmail.com">abhinavramms10@gmail.com</a></li>
+      <li class="prompt">Email: <a href="mailto:abhinavramms7@gmail.com">abhinavramms7@gmail.com</a></li>
+      <li class="prompt">Email: <a href="mailto:abhinavabhinavram5@gmail.com">abhinavabhinavram5@gmail.com</a></li>
+      <li class="prompt">Email: <a href="mailto:abhinavramms9@gmail.com">abhinavramms9@gmail.com</a></li>
+      <li class="prompt">Email: <a href="mailto:abhinavramms1@gmail.com">abhinavramms1@gmail.com</a></li>
+      <li class="prompt">Instagram: <a href="https://www.instagram.com/__.abhinav.ram.ms._/" target="_blank" rel="noopener">__.abhinav.ram.ms._</a></li>
+    </ul>
+
+    <a href="index.html" class="back">← Return to Command Menu</a>
+
+    <div class="prompt"><span class="cursor"></span></div>
+  </div>
+</body>
+</html>
