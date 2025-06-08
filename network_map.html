@@ -1,3 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Your <head> section remains the same, just ensure it has the <style> block from before -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Protocol X-14: A global map of Abhinav Ram M.S.'s online presence and digital footprint.">
+  <meta name="author" content="Abhinav Ram MS">
+  <title>Protocol X-14 // Network Map</title>
+
+  <!-- IMPORTANT: We need the three.js library for custom materials -->
+  <script src="//unpkg.com/three"></script>
+  <script src="//unpkg.com/globe.gl"></script>
+
+  <style>
+    /* Paste the same CSS styles from the previous answer here */
+    body { background-color: #0a0a0a; color: #00ffcc; font-family: 'Courier New', monospace; padding: 40px; margin: 0; overflow-x: hidden; }
+    .terminal { border: 2px solid #00ffcc; padding: 20px; max-width: 900px; margin: auto; background-color: #000000; box-shadow: 0 0 20px #00ffcc80; }
+    .title { font-size: 24px; color: #ffffff; margin-bottom: 20px; border-bottom: 1px dashed #00ffcc55; padding-bottom: 10px; }
+    .comment { color: #888; }
+    a { color: #00ffcc; text-decoration: none; }
+    a:hover { color: #ff0066; text-shadow: 0 0 10px #ff0066; }
+    .globe-container { position: relative; width: 100%; height: 450px; margin: 20px 0; cursor: grab; overflow: hidden; background-color: #000000; border: 1px solid #00ffcc33; }
+    .globe-container:active { cursor: grabbing; }
+    .globe-label { position: absolute; font-size: 16px; font-weight: bold; color: #ffffff; text-shadow: 0 0 8px #00ffcc; pointer-events: none; transform: translateX(-50%); }
+    .log-table { width: 100%; margin-top: 30px; border-collapse: collapse; }
+    .log-table th, .log-table td { border: 1px solid #00ffcc55; padding: 10px 15px; text-align: left; }
+    .log-table th { color: #ffffff; background-color: #00ffcc1a; }
+    .clickable-link { color: #ffffff; font-weight: bold; cursor: pointer; display: inline-block; padding: 2px 5px; background-color: #00ffcc22; border: 1px solid transparent; transition: all 0.2s ease-in-out; }
+    .clickable-link:hover { background-color: #ff0066; color: #ffffff; text-shadow: 0 0 8px #ffffff; border-color: #ff0066; }
+    .footer-nav { margin-top: 30px; border-top: 1px dashed #00ffcc55; padding-top: 15px; }
+  </style>
+</head>
 <body>
   <div class="terminal">
     <div class="title">[NETWORK_MAP - GLOBAL PRESENCE]</div>
@@ -5,13 +37,13 @@
     <div class="comment">// Global presence visualizer online. System normal.</div>
     <div class="comment">// Drag to explore. Scroll to zoom.</div>
 
-    <!-- The container for the globe remains the same -->
     <div id="globeViz" class="globe-container"></div>
     
     <div class="title">[CONNECTION DATA LOG]</div>
     
     <table class="log-table">
-      <thead>
+       <!-- Table content is the same -->
+       <thead>
         <tr>
           <th>[Location]</th>
           <th>[Designation]</th>
@@ -27,76 +59,63 @@
         <tr>
           <td>Spain</td>
           <td>Chess.com Profile</td>
-          <td>
-            <!-- I've added data-link attributes to make the JS cleaner -->
-            <span class="clickable-link" data-link="https://www.chess.com/member/elreypulga19">
-              ./access --chess
-            </span>
-          </td>
+          <td><span class="clickable-link" data-link="https://www.chess.com/member/elreypulga19">./access --chess</span></td>
         </tr>
         <tr>
           <td>USA</td>
           <td>Tinkercad Profile</td>
-          <td>
-            <span class="clickable-link" data-link="https://www.tinkercad.com/users/2y88rVNq5Sm-abhinavramms5">
-              ./access --tinkercad
-            </span>
-          </td>
+          <td><span class="clickable-link" data-link="https://www.tinkercad.com/users/2y88rVNq5Sm-abhinavramms5">./access --tinkercad</span></td>
         </tr>
         <tr>
           <td>USA</td>
           <td>GitHub Repository</td>
-          <td>
-            <span class="clickable-link" data-link="https://github.com/abhi852741963">
-              ./access --github
-            </span>
-          </td>
+          <td><span class="clickable-link" data-link="https://github.com/abhi852741963">./access --github</span></td>
         </tr>
       </tbody>
     </table>
 
     <div class="footer-nav">
-      <!-- Make sure you have an index.html file for this to link to -->
       <a href="index.html">./return --menu</a>
     </div>
 
   </div>
 
 <script>
-  // --- DATA FOR THE GLOBE MARKERS (No change here) ---
+  // --- Data for Markers (No change) ---
   const gData = [
-    { lat: 20.5937, lng: 78.9629, label: 'HOME', color: '#ff0066', size: 0.8 },
-    { lat: 40.4168, lng: -3.7038, label: 'Chess.com', color: '#00ffcc', size: 0.5 },
-    // Grouping the USA points for a single label
-    { lat: 38.9637, lng: -95.7129, label: 'Tinkercad / GitHub', color: '#00ffcc', size: 0.5 }
+    { lat: 20.5937, lng: 78.9629, label: 'HOME', color: '#ff0066' },
+    { lat: 40.4168, lng: -3.7038, label: 'Chess.com', color: '#00ffcc' },
+    { lat: 38.9637, lng: -95.7129, label: 'Tinkercad / GitHub', color: '#00ffcc' }
   ];
-  
+
   // --- REVISED GLOBE INITIALIZATION ---
   const World = Globe()
     (document.getElementById('globeViz'))
-    // --- Appearance Settings ---
-    // This is how you achieve the dark globe from your image.
-    // It's a texture that comes with the library examples.
-    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg') 
-    .backgroundColor('#00000000') // Transparent background
-    .atmosphereColor('#00ffcc') // The green glow
-    .atmosphereAltitude(0.2); // How far the glow extends
+    
+    // *** THE KEY CHANGE IS HERE ***
+    // Instead of globeImageUrl, we create a custom material.
+    // This creates a dark blue, slightly shiny sphere that reacts to light.
+    .globeMaterial(new THREE.MeshPhongMaterial({
+      color: '#020218', // A very dark navy blue, almost black
+      shininess: 25     // Controls the highlight intensity
+    }))
+    
+    .backgroundColor('#00000000') // Transparent canvas background
+    .atmosphereColor('#0d2d62')   // A deep blue for the atmosphere glow
+    .atmosphereAltitude(0.25);    // How far the glow extends
 
-  // --- Data Layers ---
-  // You already had these, and they were correct! They add the labels and rings.
+  // --- Data Layers (Labels and Rings) ---
   World.htmlElementsData(gData)
     .htmlElement(d => {
       const el = document.createElement('div');
       el.innerHTML = d.label;
       el.className = 'globe-label';
       el.style.color = d.color;
-      // Special styling for the 'HOME' base to make it stand out
       if (d.label === 'HOME') {
          el.style.textShadow = '0 0 8px #ff0066, 0 0 12px #ff0066';
       }
       return el;
-    })
-    .htmlElementTransitionDuration(1000);
+    });
 
   World.ringsData(gData)
     .ringColor(d => d.color)
@@ -104,45 +123,19 @@
     .ringPropagationSpeed(3)
     .ringRepeatPeriod(800);
 
-  // --- Globe Controls ---
+  // --- Controls and Animation ---
   World.controls().autoRotate = true;
-  World.controls().autoRotateSpeed = 0.5;
-  World.controls().enableZoom = true; // Allow scroll-to-zoom
+  World.controls().autoRotateSpeed = 0.4;
+  World.controls().enableZoom = true;
+  World.pointOfView({ altitude: 3.5 }, 1000); // Start zoomed out
 
-  // --- Camera Animation Sequence ---
-  // This pans the camera to each point of interest automatically.
-  const locations = [
-    { lat: 20.5937, lng: 78.9629, altitude: 1.5 },   // India
-    { lat: 40.4168, lng: -3.7038, altitude: 1.5 },   // Spain
-    { lat: 38.9637, lng: -95.7129, altitude: 1.5 },   // USA
-    { altitude: 3.5 }                                // Zoom out
-  ];
-  let currentLoc = 0;
-  const panToNextLocation = () => {
-    if (currentLoc >= locations.length) {
-      currentLoc = 0; // Loop back to the start
-    }
-    World.pointOfView(locations[currentLoc], 3000); // 3-second transition
-    currentLoc++;
-  };
-  
-  // Start the animation and repeat every 6 seconds
-  setTimeout(panToNextLocation, 1000); // Initial delay
-  setInterval(panToNextLocation, 6000); // 3s transition + 3s pause
-
-  // --- CLICKABLE LINKS IN TABLE (Your code was good, this is just slightly cleaner) ---
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.clickable-link').forEach(link => {
-      link.addEventListener('click', () => {
-        const url = link.getAttribute('data-link');
-        if (url) { 
-          window.open(url, '_blank'); 
-        }
-      });
+  // --- Clickable Links Handler ---
+  document.querySelectorAll('.clickable-link').forEach(link => {
+    link.addEventListener('click', () => {
+      window.open(link.dataset.link, '_blank');
     });
   });
 </script>
 
-<!-- You might not need topojson-client if you use the image texture method -->
-<!-- <script src="//unpkg.com/topojson-client"></script> -->
 </body>
+</html>
