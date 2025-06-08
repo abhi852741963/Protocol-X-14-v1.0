@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>./404.log | Protocol X-14</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .terminal {
+      border: 2px solid #ff0066;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+      background-color: #0a0a0a;
+      box-shadow: 0 0 20px #ff006680;
+    }
+
+    .error {
+      font-size: 28px;
+      color: #ff0066;
+      margin-bottom: 10px;
+    }
+
+    .line::before {
+      content: "> ";
+      color: #00ffcc;
+    }
+
+    .line {
+      margin: 12px 0;
+      white-space: pre-wrap;
+    }
+
+    .blink {
+      animation: blink 1s step-start infinite;
+      background-color: #00ffcc;
+      width: 10px;
+      height: 20px;
+      display: inline-block;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      50% {
+        background: transparent;
+      }
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 25px;
+      color: #00ffcc;
+      text-decoration: none;
+    }
+
+    .back:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="error">[ERROR 404] - Access Denied</div>
+
+    <div class="line">Location: ./404.log</div>
+    <div class="line">Reason: Unknown Command or File Not Found</div>
+    <div class="line">Status: Terminal anomaly detected</div>
+    <div class="line">Suggested Action: Return to command menu</div>
+
+    <div class="line">...
+      <span class="blink"></span>
+    </div>
+
+    <a href="index.html" class="back">← Back to Command Menu</a>
+  </div>
+</body>
+</html>
