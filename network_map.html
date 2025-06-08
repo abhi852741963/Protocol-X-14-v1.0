@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Protocol X-14: A global map of Abhinav Ram M.S.'s online presence and digital footprint.">
+  <meta name="author" content="Abhinav Ram MS">
+  <title>Protocol X-14 // Network Map</title>
+
+  <!-- JS library for the interactive globe -->
+  <script src="//unpkg.com/globe.gl"></script>
+
+  <style>
+    /* --- Inherited Styles from Main Page --- */
+    body {
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+      margin: 0;
+      overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+    .terminal {
+      border: 2px solid #00ffcc;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+      background-color: #000000;
+      box-shadow: 0 0 20px #00ffcc80;
+    }
+
+    .title {
+      font-size: 24px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      border-bottom: 1px dashed #00ffcc55;
+      padding-bottom: 10px;
+    }
+    
+    .comment {
+      color: #888;
+    }
+
+    a {
+      color: #00ffcc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+
+    /* --- New Styles for this Page --- */
+    .globe-container {
+      width: 100%;
+      height: 450px;
+      margin: 20px 0;
+      cursor: grab;
+    }
+    .globe-container:active {
+      cursor: grabbing;
+    }
+
+    .log-table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse; /* Clean table lines */
+    }
+
+    .log-table th, .log-table td {
+      border: 1px solid #00ffcc55;
+      padding: 10px 15px;
+      text-align: left;
+    }
+    
+    .log-table th {
+      color: #ffffff;
+      background-color: #00ffcc1a;
+    }
+
+    .clickable-link {
+      color: #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-block;
+      padding: 2px 5px;
+      background-color: #00ffcc22;
+      border: 1px solid transparent;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .clickable-link:hover {
+      background-color: #ff0066;
+      color: #ffffff;
+      text-shadow: 0 0 8px #ffffff;
+      border-color: #ff0066;
+    }
+
+    .footer-nav {
+      margin-top: 30px;
+      border-top: 1px dashed #00ffcc55;
+      padding-top: 15px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="title">[NETWORK_MAP - GLOBAL PRESENCE]</div>
+    
+    <div class="comment">// Initializing global presence visualizer... Stand by.</div>
+    <div class="comment">// Drag to explore. Scroll to zoom.</div>
+
+    <!-- Container for the 3D globe -->
+    <div id="globeViz" class="globe-container"></div>
+    
+    <div class="title">[DATA LOG]</div>
+    
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>[Location]</th>
+          <th>[Designation]</th>
+          <th>[Access Point]</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>India</td>
+          <td>Home Base</td>
+          <td><span class="comment">// Physical Coordinates</span></td>
+        </tr>
+        <tr>
+          <td>Spain</td>
+          <td>Chess.com Profile</td>
+          <td>
+            <span class="clickable-link" data-link="https://www.chess.com/member/elreypulga19">
+              ./access --chess
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>USA</td>
+          <td>Tinkercad Profile</td>
+          <td>
+            <span class="clickable-link" data-link="https://www.tinkercad.com/users/2y88rVNq5Sm-abhinavramms5">
+              ./access --tinkercad
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>USA</td>
+          <td>GitHub Repository</td>
+          <td>
+            <span class="clickable-link" data-link="https://github.com/abhi852741963">
+              ./access --github
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer-nav">
+      <a href="index.html">./return --menu</a>
+    </div>
+
+  </div>
+
+<script>
+  // --- DATA FOR THE GLOBE MARKERS ---
+  const gData = [
+    {
+      lat: 20.5937,
+      lng: 78.9629,
+      label: 'HOME',
+      color: '#ff0066', // A distinct color for home
+      size: 0.7
+    },
+    {
+      lat: 40.4168,
+      lng: -3.7038,
+      label: 'Chess.com Acc',
+      color: '#00ffcc',
+      size: 0.5
+    },
+    {
+      // A general point in the US to represent cloud-based services
+      lat: 39.8283,
+      lng: -98.5795,
+      label: 'Tinkercad & GitHub',
+      color: '#00ffcc',
+      size: 0.6
+    }
+  ];
+
+  // --- GLOBE INITIALIZATION ---
+  const World = Globe()
+    (document.getElementById('globeViz'))
+    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg') // Night-time earth texture
+    .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png') // Starry background
+    .backgroundColor('#0a0a0a00') // Transparent background to show body
+    .atmosphereColor('#00ffcc') // Color of the atmospheric glow
+    .atmosphereAltitude(0.2)
+    .pointsData(gData)
+    .pointAltitude('size')
+    .pointColor('color')
+    .pointLabel('label')
+    .pointRadius(0.3)
+    .pointsTransitionDuration(1000);
+
+  // --- ANIMATION SEQUENCE ---
+  const ANIMATION_DELAY = 2000; // 2 seconds between pans
+  const PAN_DURATION = 3500; // 3.5 seconds for the pan itself
+
+  // 1. Pan to India
+  setTimeout(() => {
+    World.pointOfView({ lat: gData[0].lat, lng: gData[0].lng, altitude: 1.5 }, PAN_DURATION);
+  }, 1000); // Start after 1 second
+
+  // 2. Pan to Spain
+  setTimeout(() => {
+    World.pointOfView({ lat: gData[1].lat, lng: gData[1].lng, altitude: 1.5 }, PAN_DURATION);
+  }, 1000 + PAN_DURATION + ANIMATION_DELAY);
+
+  // 3. Pan to USA
+  setTimeout(() => {
+    World.pointOfView({ lat: gData[2].lat, lng: gData[2].lng, altitude: 1.5 }, PAN_DURATION);
+  }, 1000 + (PAN_DURATION + ANIMATION_DELAY) * 2);
+
+  // 4. Pan back to a wider view
+  setTimeout(() => {
+    World.pointOfView({ lat: 20, lng: 20, altitude: 2.5 }, PAN_DURATION);
+  }, 1000 + (PAN_DURATION + ANIMATION_DELAY) * 3);
+
+
+  // --- CLICKABLE LINKS IN TABLE ---
+  document.addEventListener('DOMContentLoaded', () => {
+    const clickableLinks = document.querySelectorAll('.clickable-link');
+    clickableLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const url = link.getAttribute('data-link');
+        if (url) {
+          window.open(url, '_blank'); // Open link in a new tab
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
