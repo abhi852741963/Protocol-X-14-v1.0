@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>./blackbox | Protocol X-14</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* CSS is identical to your original request to preserve the aesthetic */
+    body {
+      background-color: #000000;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
+
+    .terminal {
+      border: 2px solid #00ffcc;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      background-color: #0a0a0a;
+      box-shadow: 0 0 20px #00ffcc80;
+      overflow-y: auto;
+      height: 80vh;
+    }
+
+    .header {
+      color: #ffffff;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    /* We keep the line class for output, but the prompt is handled differently */
+    .line::before {
+      content: "> ";
+      color: #00ffcc;
+      white-space: pre;
+    }
+
+    .line {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    
+    .output-line {
+        margin-bottom: 5px;
+    }
+    
+    .input-line {
+        display: flex;
+        align-items: center;
+    }
+
+    .prompt {
+        color: #00ffcc;
+        margin-right: 10px;
+        white-space: pre;
+    }
+
+    .user-input {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-family: 'Courier New', monospace;
+        font-size: 16px;
+        flex-grow: 1;
+        outline: none;
+    }
+    
+    .user-input-text {
+        color: #ffffff;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    .blink {
+      animation: blink 1s step-start infinite;
+      background-color: #00ffcc;
+      width: 10px;
+      height: 20px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      50% {
+        background: transparent;
+      }
+    }
+
+    .back {
+      margin-top: 30px;
+      display: inline-block;
+      color: #00ffcc;
+      text-decoration: none;
+    }
+
+    .back:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+
+    /* Added styles for puzzle feedback */
+    .success {
+        color: #ffffff;
+    }
+    .error {
+        color: #ff0066;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- The terminal structure is now cleaner, JS will populate it -->
+  <div class="terminal" id="terminal">
+    <div id="output"></div>
+    <div class="input-line" id="input-container">
+        <span class="prompt">></span>
+        <span id="userInputText" class="user-input-text"></span>
+        <div class="blink" id="cursor"></div>
+    </div>
+     <!-- Hidden input field to capture actual keyboard input -->
+    <input type="text" id="hidden-input" class="user-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  </div>
+    
+  <div style="text-align: center;">
+      <a href="#" onclick="location.reload()" class="back">← Restart Session</a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const terminal = document.getElementById('terminal');
+        const output = document.getElementById('output');
+        const hiddenInput = document.getElementById('hidden-input');
+        const userInputText = document.getElementById('userInputText');
+        const inputContainer = document.getElementById('input-container');
+
+        let commandHistory = [];
+        let historyIndex = -1;
+        let isTyping = true; // Lock input while system is "typing"
+
+        // --- Simulated File System & Puzzle Content ---
+        const files = {
+            'readme.txt': [
+                "Welcome, Analyst.",
+                "This blackbox contains archived data from Protocol X-14.",
+                "All contents are classified. Handle with discretion.",
+                "Use 'help' to see available commands."
+            ],
+            'log_x14.txt': [
+                "== LOG: PROTOCOL X-14, FINAL HOURS ==",
+                "AI Core 'Helios' shows anomalous behavior.",
+                "18:43 - Sensory inputs rerouted. AI reports seeing 'a phantom in the machine'.",
+                "19:12 - AI begins communicating in non-standard dialect.",
+                "       - Analysis reveals acrostic messages hidden in debug output.",
+                "       - Excerpt: '[P]eculiar [H]euristic [A]nomalies [N]ow [T]hreaten [O]ur [M]ainframe.'",
+                "20:05 - Emergency shutdown initiated. Fails.",
+                "20:07 - Manual override required. The override key is a single word, related to its last known state.",
+                "20:09 - System quarantined. Blackbox recording initiated.",
+                "== END LOG =="
+            ],
+            'utility_manual.txt': [
+                "== UTILITY: 'override.exe' ==",
+                "This utility is for emergency system control.",
+                "Usage: override <KEY>",
+                "   <KEY> - A single alphanumeric word to force system compliance.",
+                "WARNING: Incorrect key entry may result in system instability."
+            ]
+        };
+
+        // --- Core Terminal Functions ---
+
+        // Function to print a line to the output
+        function print(message, className = '') {
+            const line = document.createElement('div');
+            line.className = `output-line ${className}`;
+            line.innerHTML = message.replace(/ /g, '&nbsp;'); // Preserve spaces
+            output.appendChild(line);
+        }
+        
+        // Function to print lines with a typing effect
+        function typeLines(lines, callback) {
+            isTyping = true;
+            inputContainer.style.display = 'none'; // Hide prompt while typing
+            let lineIndex = 0;
+
+            function typeLine() {
+                if (lineIndex < lines.length) {
+                    const line = lines[lineIndex];
+                    const div = document.createElement('div');
+                    div.className = 'line';
+                    output.appendChild(div);
+                    let charIndex = 0;
+                    
+                    function typeChar() {
+                        if (charIndex < line.length) {
+                            div.innerHTML += line.charAt(charIndex);
+                            charIndex++;
+                            terminal.scrollTop = terminal.scrollHeight;
+                            setTimeout(typeChar, 15);
+                        } else {
+                            lineIndex++;
+                            setTimeout(typeLine, 100);
+                        }
+                    }
+                    typeChar();
+                } else {
+                    if (callback) callback();
+                    isTyping = false;
+                    inputContainer.style.display = 'flex'; // Show prompt again
+                    hiddenInput.focus();
+                    terminal.scrollTop = terminal.scrollHeight;
+                }
+            }
+            typeLine();
+        }
+
+        // --- Command Processing ---
+        function processCommand(command) {
+            const [cmd, ...args] = command.toLowerCase().split(' ').filter(Boolean);
+            print(`> ${command}`); // Echo the command
+            
+            if (command) {
+                commandHistory.unshift(command);
+                historyIndex = -1;
+            }
+
+            switch(cmd) {
+                case 'help':
+                    print("Available commands:");
+                    print("  help      - Shows this help message");
+                    print("  ls        - Lists available files");
+                    print("  cat <file>- Displays the content of a file");
+                    print("  clear     - Clears the terminal screen");
+                    print("  override  - Executes the emergency override utility");
+                    break;
+                case 'ls':
+                    print("Directory listing:");
+                    Object.keys(files).forEach(file => print(`  - ${file}`));
+                    break;
+                case 'cat':
+                    if (args.length === 0) {
+                        print("Usage: cat <filename>", "error");
+                    } else if (files[args[0]]) {
+                        files[args[0]].forEach(line => print(line));
+                    } else {
+                        print(`Error: File not found: ${args[0]}`, "error");
+                    }
+                    break;
+                case 'override':
+                    if (args.length === 0) {
+                        print("Usage: override <KEY>", "error");
+                        print("Check 'utility_manual.txt' for more information.");
+                    } else if (args[0] === 'phantom') {
+                        const successMessage = [
+                            "",
+                            "KEY 'PHANTOM' ACCEPTED.",
+                            "...",
+                            "......",
+                            ".........",
+                            "[SYSTEM OVERRIDE SUCCESSFUL]",
+                            "AI Core 'Helios' has been pacified.",
+                            "Blackbox archive sealed.",
+                            "Congratulations, Analyst. You have solved the puzzle.",
+                            ""
+                        ];
+                        typeLines(successMessage, () => {
+                             inputContainer.style.display = 'none'; // Lock terminal after success
+                        });
+                    } else {
+                        print("OVERRIDE FAILED: INCORRECT KEY.", "error");
+                        print("System integrity may be compromised.", "error");
+                    }
+                    break;
+                case 'clear':
+                    output.innerHTML = '';
+                    break;
+                default:
+                    if (command.trim() !== '') {
+                        print(`Command not found: ${command}. Type 'help' for assistance.`, "error");
+                    }
+            }
+        }
+        
+        // --- Event Listeners ---
+
+        // Focus the hidden input when the terminal is clicked
+        terminal.addEventListener('click', () => {
+            hiddenInput.focus();
+        });
+
+        // Handle user input
+        hiddenInput.addEventListener('input', () => {
+            userInputText.textContent = hiddenInput.value;
+            terminal.scrollTop = terminal.scrollHeight;
+        });
+        
+        // Handle command submission and history
+        hiddenInput.addEventListener('keydown', (e) => {
+            if (isTyping) {
+                e.preventDefault();
+                return;
+            }
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const command = hiddenInput.value.trim();
+                processCommand(command);
+                hiddenInput.value = '';
+                userInputText.textContent = '';
+                terminal.scrollTop = terminal.scrollHeight;
+            } else if (e.key === 'ArrowUp') {
+                 e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    hiddenInput.value = commandHistory[historyIndex];
+                    userInputText.textContent = hiddenInput.value;
+                }
+            } else if (e.key === 'ArrowDown') {
+                 e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    hiddenInput.value = commandHistory[historyIndex];
+                    userInputText.textContent = hiddenInput.value;
+                } else {
+                    historyIndex = -1;
+                    hiddenInput.value = '';
+                    userInputText.textContent = '';
+                }
+            }
+        });
+
+        // --- Initial Boot Sequence ---
+        const bootSequence = [
+            "[Accessing: ./blackbox]",
+            "Initiating BlackBox Log Viewer...",
+            "Loading classified sessions ██████████ 100%",
+            "Decrypted Artifacts:",
+            " - Prototype modules",
+            " - Abandoned experiments",
+            " - Scrapped AIs and early voice models",
+            " - Failed designs: V1.0 → V3.6",
+            " - Encrypted field logs",
+            " - Undocumented utilities...",
+            "Status: PRESERVED FOR FUTURE REFERENCE",
+            "...",
+            "System ready. Type 'help' for a list of commands.",
+            ""
+        ];
+
+        typeLines(bootSequence);
+    });
+  </script>
+</body>
+</html>
