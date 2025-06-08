@@ -51,34 +51,31 @@
       text-shadow: 0 0 10px #ff0066;
     }
 
-    /* --- REVISED STYLES FOR THE GLOBE --- */
+    /* --- REVISED STYLES FOR THE GLOBE CONTAINER --- */
     .globe-container {
-      position: relative; /* Crucial for containing the globe canvas */
+      position: relative;
       width: 100%;
       height: 450px;
       margin: 20px 0;
       cursor: grab;
-      overflow: hidden; /* This is the magic: it clips anything that tries to render outside */
-      background-image: url('//unpkg.com/three-globe/example/img/night-sky.png');
-      background-size: cover;
-      background-position: center;
-      border: 1px solid #00ffcc33; /* Adds a faint inner border */
+      overflow: hidden; /* This is crucial for keeping the globe inside */
+      background-color: #000000; /* Solid black background as requested */
+      border: 1px solid #00ffcc33;
     }
     .globe-container:active {
       cursor: grabbing;
     }
 
-    /* --- NEW STYLE FOR THE PINPOINT LABELS --- */
+    /* --- STYLE FOR THE PINPOINT LABELS --- */
     .globe-label {
       position: absolute;
-      font-size: 16px; /* Larger font size */
+      font-size: 16px;
       font-weight: bold;
       color: #ffffff;
-      text-shadow: 0 0 8px #00ffcc, 0 0 12px #ff0066;
-      pointer-events: none; /* Allows clicking 'through' the label onto the globe */
-      transform: translateX(-50%); /* Centers the label */
+      text-shadow: 0 0 8px #00ffcc;
+      pointer-events: none;
+      transform: translateX(-50%);
     }
-
 
     /* --- Styles for the log table and footer --- */
     .log-table {
@@ -188,84 +185,59 @@
 <script>
   // --- DATA FOR THE GLOBE MARKERS ---
   const gData = [
-    {
-      lat: 20.5937,
-      lng: 78.9629,
-      label: 'HOME',
-      color: '#ff0066'
-    },
-    {
-      lat: 40.4168,
-      lng: -3.7038,
-      label: 'Chess.com',
-      color: '#00ffcc'
-    },
-    {
-      lat: 37.7749, // San Francisco area, common for tech HQs
-      lng: -122.4194,
-      label: 'Tinkercad',
-      color: '#00ffcc'
-    },
-    {
-      lat: 37.7749, // Grouped with Tinkercad as they are both US-based tech
-      lng: -122.4194,
-      label: 'GitHub',
-      color: '#00ffcc'
-    }
+    { lat: 20.5937, lng: 78.9629, label: 'HOME', color: '#ff0066' },
+    { lat: 40.4168, lng: -3.7038, label: 'Chess.com', color: '#00ffcc' },
+    { lat: 37.7749, lng: -122.4194, label: 'Tinkercad / GitHub', color: '#00ffcc' }
   ];
-
-  const usaLocation = { lat: 38.9637, lng: -95.7129, label: 'USA Hub' };
-
-  // --- GLOBE INITIALIZATION ---
+  
+  // --- GLOBE INITIALIZATION (ROBUST METHOD) ---
   const World = Globe()
     (document.getElementById('globeViz'))
-    // Use a wireframe texture for a 'hacker' look
-    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-wireframe.png')
-    .backgroundColor('#00000000') // Transparent so CSS background shows
-    .atmosphereColor('#00ffcc')
+    // Use polygons instead of image texture for a more reliable "hacker" look
+    .polygonsData(gData) // This can be expanded with GeoJSON data for continents
+    .polygonCapColor(() => '#00ffcc20') // Faint green for landmasses
+    .polygonSideColor(() => '#00000000') // No side color
+    .globeColor('#000000') // Make the "water" solid black
+    .backgroundColor('#00000000') // Transparent canvas background
+    .atmosphereColor('#00ffcc') // Green glow
     .atmosphereAltitude(0.25)
-    
-    // Use HTML Elements for the labels
+
+    // HTML Elements for the labels (large and clear)
     .htmlElementsData(gData)
     .htmlElement(d => {
       const el = document.createElement('div');
       el.innerHTML = d.label;
       el.className = 'globe-label';
       el.style.color = d.color;
+      if (d.label === 'HOME') {
+         el.style.textShadow = '0 0 8px #ff0066, 0 0 12px #ff0066';
+      }
       return el;
     })
     .htmlElementTransitionDuration(1000)
 
-    // Add pulsing rings for the points
+    // Pulsing rings for the points
     .ringsData(gData)
     .ringColor(d => d.color)
     .ringMaxRadius(4)
     .ringPropagationSpeed(3)
     .ringRepeatPeriod(800);
 
+    // Fetch and draw land polygons for the vector map effect
+    fetch('//unpkg.com/world-atlas/land-110m.json').then(res => res.json())
+        .then(landTopo => {
+            World.polygonsData(topojson.feature(landTopo, landTopo.objects.land).features);
+        });
+
+
   // --- ANIMATION SEQUENCE ---
-  const ANIMATION_DELAY = 2000; // 2 seconds between pans
-  const PAN_DURATION = 3500; // 3.5 seconds for the pan itself
+  const ANIMATION_DELAY = 2000;
+  const PAN_DURATION = 3500;
 
-  // 1. Pan to India
-  setTimeout(() => {
-    World.pointOfView({ lat: gData[0].lat, lng: gData[0].lng, altitude: 1.5 }, PAN_DURATION);
-  }, 1000);
-
-  // 2. Pan to Spain
-  setTimeout(() => {
-    World.pointOfView({ lat: gData[1].lat, lng: gData[1].lng, altitude: 1.5 }, PAN_DURATION);
-  }, 1000 + PAN_DURATION + ANIMATION_DELAY);
-
-  // 3. Pan to USA
-  setTimeout(() => {
-    World.pointOfView({ lat: usaLocation.lat, lng: usaLocation.lng, altitude: 1.5 }, PAN_DURATION);
-  }, 1000 + (PAN_DURATION + ANIMATION_DELAY) * 2);
-
-  // 4. Pan back to a wider view
-  setTimeout(() => {
-    World.pointOfView({ altitude: 3.0 }, PAN_DURATION + 1000);
-  }, 1000 + (PAN_DURATION + ANIMATION_DELAY) * 3);
+  setTimeout(() => { World.pointOfView({ lat: gData[0].lat, lng: gData[0].lng, altitude: 1.5 }, PAN_DURATION); }, 1000);
+  setTimeout(() => { World.pointOfView({ lat: gData[1].lat, lng: gData[1].lng, altitude: 1.5 }, PAN_DURATION); }, 1000 + PAN_DURATION + ANIMATION_DELAY);
+  setTimeout(() => { World.pointOfView({ lat: gData[2].lat, lng: gData[2].lng, altitude: 1.5 }, PAN_DURATION); }, 1000 + (PAN_DURATION + ANIMATION_DELAY) * 2);
+  setTimeout(() => { World.pointOfView({ altitude: 3.0 }, PAN_DURATION + 1000); }, 1000 + (PAN_DURATION + ANIMATION_DELAY) * 3);
 
 
   // --- CLICKABLE LINKS IN TABLE ---
@@ -274,13 +246,12 @@
     clickableLinks.forEach(link => {
       link.addEventListener('click', () => {
         const url = link.getAttribute('data-link');
-        if (url) {
-          window.open(url, '_blank');
-        }
+        if (url) { window.open(url, '_blank'); }
       });
     });
   });
 </script>
-
+<!-- Required for the new vector map -->
+<script src="//unpkg.com/topojson-client"></script>
 </body>
 </html>
