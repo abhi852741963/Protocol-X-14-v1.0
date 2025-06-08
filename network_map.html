@@ -1,126 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="description" content="Protocol X-14: A global map of Abhinav Ram M.S.'s online presence and digital footprint.">
-  <meta name="author" content="Abhinav Ram MS">
-  <title>Protocol X-14 // Network Map</title>
-
-  <!-- JS library for the interactive globe -->
-  <script src="//unpkg.com/globe.gl"></script>
-
-  <style>
-    /* --- Inherited Styles from Main Page --- */
-    body {
-      background-color: #0a0a0a;
-      color: #00ffcc;
-      font-family: 'Courier New', monospace;
-      padding: 40px;
-      margin: 0;
-      overflow-x: hidden;
-    }
-
-    .terminal {
-      border: 2px solid #00ffcc;
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-      background-color: #000000;
-      box-shadow: 0 0 20px #00ffcc80;
-    }
-
-    .title {
-      font-size: 24px;
-      color: #ffffff;
-      margin-bottom: 20px;
-      border-bottom: 1px dashed #00ffcc55;
-      padding-bottom: 10px;
-    }
-    
-    .comment {
-      color: #888;
-    }
-
-    a {
-      color: #00ffcc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      color: #ff0066;
-      text-shadow: 0 0 10px #ff0066;
-    }
-
-    /* --- REVISED STYLES FOR THE GLOBE CONTAINER --- */
-    .globe-container {
-      position: relative;
-      width: 100%;
-      height: 450px;
-      margin: 20px 0;
-      cursor: grab;
-      overflow: hidden; /* This is crucial for keeping the globe inside */
-      background-color: #000000; /* Solid black background as requested */
-      border: 1px solid #00ffcc33;
-    }
-    .globe-container:active {
-      cursor: grabbing;
-    }
-
-    /* --- STYLE FOR THE PINPOINT LABELS --- */
-    .globe-label {
-      position: absolute;
-      font-size: 16px;
-      font-weight: bold;
-      color: #ffffff;
-      text-shadow: 0 0 8px #00ffcc;
-      pointer-events: none;
-      transform: translateX(-50%);
-    }
-
-    /* --- Styles for the log table and footer --- */
-    .log-table {
-      width: 100%;
-      margin-top: 30px;
-      border-collapse: collapse;
-    }
-
-    .log-table th, .log-table td {
-      border: 1px solid #00ffcc55;
-      padding: 10px 15px;
-      text-align: left;
-    }
-    
-    .log-table th {
-      color: #ffffff;
-      background-color: #00ffcc1a;
-    }
-
-    .clickable-link {
-      color: #ffffff;
-      font-weight: bold;
-      cursor: pointer;
-      display: inline-block;
-      padding: 2px 5px;
-      background-color: #00ffcc22;
-      border: 1px solid transparent;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .clickable-link:hover {
-      background-color: #ff0066;
-      color: #ffffff;
-      text-shadow: 0 0 8px #ffffff;
-      border-color: #ff0066;
-    }
-
-    .footer-nav {
-      margin-top: 30px;
-      border-top: 1px dashed #00ffcc55;
-      padding-top: 15px;
-    }
-
-  </style>
-</head>
 <body>
   <div class="terminal">
     <div class="title">[NETWORK_MAP - GLOBAL PRESENCE]</div>
@@ -128,6 +5,7 @@
     <div class="comment">// Global presence visualizer online. System normal.</div>
     <div class="comment">// Drag to explore. Scroll to zoom.</div>
 
+    <!-- The container for the globe remains the same -->
     <div id="globeViz" class="globe-container"></div>
     
     <div class="title">[CONNECTION DATA LOG]</div>
@@ -150,6 +28,7 @@
           <td>Spain</td>
           <td>Chess.com Profile</td>
           <td>
+            <!-- I've added data-link attributes to make the JS cleaner -->
             <span class="clickable-link" data-link="https://www.chess.com/member/elreypulga19">
               ./access --chess
             </span>
@@ -177,81 +56,93 @@
     </table>
 
     <div class="footer-nav">
+      <!-- Make sure you have an index.html file for this to link to -->
       <a href="index.html">./return --menu</a>
     </div>
 
   </div>
 
 <script>
-  // --- DATA FOR THE GLOBE MARKERS ---
+  // --- DATA FOR THE GLOBE MARKERS (No change here) ---
   const gData = [
-    { lat: 20.5937, lng: 78.9629, label: 'HOME', color: '#ff0066' },
-    { lat: 40.4168, lng: -3.7038, label: 'Chess.com', color: '#00ffcc' },
-    { lat: 37.7749, lng: -122.4194, label: 'Tinkercad / GitHub', color: '#00ffcc' }
+    { lat: 20.5937, lng: 78.9629, label: 'HOME', color: '#ff0066', size: 0.8 },
+    { lat: 40.4168, lng: -3.7038, label: 'Chess.com', color: '#00ffcc', size: 0.5 },
+    // Grouping the USA points for a single label
+    { lat: 38.9637, lng: -95.7129, label: 'Tinkercad / GitHub', color: '#00ffcc', size: 0.5 }
   ];
   
-  // --- GLOBE INITIALIZATION (ROBUST METHOD) ---
+  // --- REVISED GLOBE INITIALIZATION ---
   const World = Globe()
     (document.getElementById('globeViz'))
-    // Use polygons instead of image texture for a more reliable "hacker" look
-    .polygonsData(gData) // This can be expanded with GeoJSON data for continents
-    .polygonCapColor(() => '#00ffcc20') // Faint green for landmasses
-    .polygonSideColor(() => '#00000000') // No side color
-    .globeColor('#000000') // Make the "water" solid black
-    .backgroundColor('#00000000') // Transparent canvas background
-    .atmosphereColor('#00ffcc') // Green glow
-    .atmosphereAltitude(0.25)
+    // --- Appearance Settings ---
+    // This is how you achieve the dark globe from your image.
+    // It's a texture that comes with the library examples.
+    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg') 
+    .backgroundColor('#00000000') // Transparent background
+    .atmosphereColor('#00ffcc') // The green glow
+    .atmosphereAltitude(0.2); // How far the glow extends
 
-    // HTML Elements for the labels (large and clear)
-    .htmlElementsData(gData)
+  // --- Data Layers ---
+  // You already had these, and they were correct! They add the labels and rings.
+  World.htmlElementsData(gData)
     .htmlElement(d => {
       const el = document.createElement('div');
       el.innerHTML = d.label;
       el.className = 'globe-label';
       el.style.color = d.color;
+      // Special styling for the 'HOME' base to make it stand out
       if (d.label === 'HOME') {
          el.style.textShadow = '0 0 8px #ff0066, 0 0 12px #ff0066';
       }
       return el;
     })
-    .htmlElementTransitionDuration(1000)
+    .htmlElementTransitionDuration(1000);
 
-    // Pulsing rings for the points
-    .ringsData(gData)
+  World.ringsData(gData)
     .ringColor(d => d.color)
     .ringMaxRadius(4)
     .ringPropagationSpeed(3)
     .ringRepeatPeriod(800);
 
-    // Fetch and draw land polygons for the vector map effect
-    fetch('//unpkg.com/world-atlas/land-110m.json').then(res => res.json())
-        .then(landTopo => {
-            World.polygonsData(topojson.feature(landTopo, landTopo.objects.land).features);
-        });
+  // --- Globe Controls ---
+  World.controls().autoRotate = true;
+  World.controls().autoRotateSpeed = 0.5;
+  World.controls().enableZoom = true; // Allow scroll-to-zoom
 
+  // --- Camera Animation Sequence ---
+  // This pans the camera to each point of interest automatically.
+  const locations = [
+    { lat: 20.5937, lng: 78.9629, altitude: 1.5 },   // India
+    { lat: 40.4168, lng: -3.7038, altitude: 1.5 },   // Spain
+    { lat: 38.9637, lng: -95.7129, altitude: 1.5 },   // USA
+    { altitude: 3.5 }                                // Zoom out
+  ];
+  let currentLoc = 0;
+  const panToNextLocation = () => {
+    if (currentLoc >= locations.length) {
+      currentLoc = 0; // Loop back to the start
+    }
+    World.pointOfView(locations[currentLoc], 3000); // 3-second transition
+    currentLoc++;
+  };
+  
+  // Start the animation and repeat every 6 seconds
+  setTimeout(panToNextLocation, 1000); // Initial delay
+  setInterval(panToNextLocation, 6000); // 3s transition + 3s pause
 
-  // --- ANIMATION SEQUENCE ---
-  const ANIMATION_DELAY = 2000;
-  const PAN_DURATION = 3500;
-
-  setTimeout(() => { World.pointOfView({ lat: gData[0].lat, lng: gData[0].lng, altitude: 1.5 }, PAN_DURATION); }, 1000);
-  setTimeout(() => { World.pointOfView({ lat: gData[1].lat, lng: gData[1].lng, altitude: 1.5 }, PAN_DURATION); }, 1000 + PAN_DURATION + ANIMATION_DELAY);
-  setTimeout(() => { World.pointOfView({ lat: gData[2].lat, lng: gData[2].lng, altitude: 1.5 }, PAN_DURATION); }, 1000 + (PAN_DURATION + ANIMATION_DELAY) * 2);
-  setTimeout(() => { World.pointOfView({ altitude: 3.0 }, PAN_DURATION + 1000); }, 1000 + (PAN_DURATION + ANIMATION_DELAY) * 3);
-
-
-  // --- CLICKABLE LINKS IN TABLE ---
+  // --- CLICKABLE LINKS IN TABLE (Your code was good, this is just slightly cleaner) ---
   document.addEventListener('DOMContentLoaded', () => {
-    const clickableLinks = document.querySelectorAll('.clickable-link');
-    clickableLinks.forEach(link => {
+    document.querySelectorAll('.clickable-link').forEach(link => {
       link.addEventListener('click', () => {
         const url = link.getAttribute('data-link');
-        if (url) { window.open(url, '_blank'); }
+        if (url) { 
+          window.open(url, '_blank'); 
+        }
       });
     });
   });
 </script>
-<!-- Required for the new vector map -->
-<script src="//unpkg.com/topojson-client"></script>
+
+<!-- You might not need topojson-client if you use the image texture method -->
+<!-- <script src="//unpkg.com/topojson-client"></script> -->
 </body>
-</html>
