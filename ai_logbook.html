@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Logbook | Protocol X-14</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+    }
+
+    .log-panel {
+      border: 2px solid #00ffcc;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+      background-color: #000000;
+      box-shadow: 0 0 20px #00ffcc80;
+      height: 80vh;
+      overflow-y: auto;
+      /* For a cool scanline effect */
+      background-image: linear-gradient(rgba(0, 255, 204, 0.05) 50%, transparent 50%);
+      background-size: 100% 4px;
+    }
+
+    .header {
+      color: #ffffff;
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+    
+    .log-entry {
+      display: flex;
+      margin-bottom: 8px;
+      white-space: pre-wrap;
+    }
+
+    .timestamp {
+      color: #888;
+      min-width: 150px;
+    }
+
+    .status {
+      min-width: 100px;
+      font-weight: bold;
+    }
+    
+    .status-info { color: #00eeff; }
+    .status-init { color: #ffff00; }
+    .status-complete { color: #ffffff; font-weight: bold; }
+    .status-data { color: #00ffcc; }
+    .status-warn { color: #ff9900; }
+    .status-critical { color: #ff0066; }
+
+    .message {
+      flex-grow: 1;
+    }
+    
+    .project-title {
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 25px 0 10px 0;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #00ffcc44;
+    }
+
+    .back {
+      margin-top: 30px;
+      display: inline-block;
+      color: #00ffcc;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .back:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
+  </style>
+</head>
+<body>
+  <div class="log-panel" id="log-panel">
+    <div class="header">[AI CORE LOGBOOK: LIVE FEED]</div>
+    <div id="log-entries"></div>
+  </div>
+  <div style="text-align: center;">
+      <a href="index.html" class="back">← Return to Command Menu</a>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const logEntriesContainer = document.getElementById('log-entries');
+    const logPanel = document.getElementById('log-panel');
+
+    // --- LOG DATA FOR AI PROJECTS ---
+    const logData = [
+        { type: 'title', message: 'Project: Real-Time Object Detection' },
+        { status: 'INIT', message: 'Loading YOLOv8 model weights...' },
+        { status: 'DATA', message: 'Model architecture: 53 convolutional layers.' },
+        { status: 'INFO', message: 'Calibrating image recognition grid...' },
+        { status: 'COMPLETE', message: 'YOLOv8 module online. Ready for real-time analysis.' },
+
+        { type: 'title', message: 'Project: Automated Attendance System' },
+        { status: 'INIT', message: 'Bootstrapping facial recognition module.' },
+        { status: 'INFO', message: 'Cross-referencing authorized personnel database...' },
+        { status: 'DATA', message: 'Found 1,245 unique facial vectors.' },
+        { status: 'WARN', message: 'Low-light environment detected. Engaging IR enhancer.' },
+        { status: 'COMPLETE', message: 'System active. Monitoring entry points.' },
+        
+        { type: 'title', message: 'Project: "JARVIS" Personal AI Assistant' },
+        { status: 'INIT', message: 'Activating vocal command parser.' },
+        { status: 'DATA', message: 'Natural Language Processing engine: GPT-based.' },
+        { status: 'INFO', message: 'Integrating with system APIs for task execution.' },
+        { status: 'COMPLETE', message: 'Jarvis is listening.' },
+        
+        { type: 'title', message: 'Project: AI-Powered Traffic Control' },
+        { status: 'INIT', message: 'Loading simulation data for urban grid C-7.' },
+        { status: 'INFO', message: 'Analyzing traffic flow patterns (24hr cycle)...' },
+        { status: 'CRITICAL', message: 'Anomaly detected: phantom congestion at intersection 4B.' },
+        { status: 'INFO', message: 'Re-routing predictive models. Applying heuristic fix.' },
+        { status: 'COMPLETE', message: 'Traffic optimization algorithm engaged.' },
+        
+        { type: 'title', message: 'Project: Real-Time Emotion Detection' },
+        { status: 'INIT', message: 'Loading affective computing models.' },
+        { status: 'DATA', message: 'Tracking 42 facial muscle vectors for micro-expressions.' },
+        { status: 'INFO', message: 'Sentiment analysis module calibrated.' },
+        { status: 'COMPLETE', message: 'Ready to interpret emotional states from video feed.' },
+        
+        { type: 'title', message: 'Project: Advanced Chatbot Models' },
+        { status: 'INIT', message: 'Deploying custom transformer-based LLM.' },
+        { status: 'INFO', message: 'Establishing contextual memory buffer.' },
+        { status: 'DATA', message: 'Knowledge base updated with latest corpus.' },
+        { status: 'COMPLETE', message: 'Chatbot services are fully operational.' },
+
+        { type: 'title', message: 'Log Stream Complete' },
+    ];
+
+    let logIndex = 0;
+
+    function streamLogs() {
+        if (logIndex < logData.length) {
+            const entry = logData[logIndex];
+
+            if (entry.type === 'title') {
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'project-title';
+                titleDiv.textContent = entry.message;
+                logEntriesContainer.appendChild(titleDiv);
+            } else {
+                const entryDiv = document.createElement('div');
+                entryDiv.className = 'log-entry';
+                
+                // Generate a fake but realistic timestamp
+                const now = new Date();
+                const ts = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${(now.getMilliseconds() + logIndex * 13).toString().padStart(3, '0')}`;
+
+                entryDiv.innerHTML = `
+                    <span class="timestamp">${ts}</span>
+                    <span class="status status-${entry.status.toLowerCase()}">[${entry.status}]</span>
+                    <span class="message">${entry.message}</span>
+                `;
+                logEntriesContainer.appendChild(entryDiv);
+            }
+
+            logPanel.scrollTop = logPanel.scrollHeight;
+            logIndex++;
+            
+            // Randomize delay for a more realistic feel
+            const delay = entry.type === 'title' ? 400 : Math.random() * 150 + 50;
+            setTimeout(streamLogs, delay);
+        }
+    }
+
+    streamLogs();
+});
+</script>
+</body>
+</html>
