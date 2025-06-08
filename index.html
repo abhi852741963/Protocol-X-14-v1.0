@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="description" content="Protocol X-14: Abhinav Ram M.S.'s cybersecurity-themed portfolio showcasing skills in AI, robotics, and tech innovation.">
-<meta name="keywords" content="Abhinav Ram MS, protocol x14, AI projects, robotics, cybersecurity, portfolio, GitHub, 14-year-old innovator">
-<meta name="author" content="Abhinav Ram MS">
+  <meta name="keywords" content="Abhinav Ram MS, protocol x14, AI projects, robotics, cybersecurity, portfolio, GitHub, 14-year-old innovator">
+  <meta name="author" content="Abhinav Ram MS">
 
   <title>Protocol X-14 v1.0</title>
   <style>
@@ -46,6 +46,10 @@
       color: #00ffcc;
       text-decoration: none;
     }
+    
+    .comment {
+      color: #888; /* Added for better visibility of comments */
+    }
 
     .cmd a:hover {
       color: #ff0066;
@@ -71,6 +75,32 @@
         background: transparent;
       }
     }
+
+    /* --- NEW CSS FOR THE HIDDEN LINK --- */
+    .system-alert {
+      margin-top: 30px; /* Pushes it below the cursor */
+      padding-top: 15px;
+      border-top: 1px dashed #ff006655; /* A separator line */
+      color: #ff0066; /* The "alert" color */
+      animation: alert-glow 2s infinite alternate;
+    }
+
+    .system-alert a {
+      color: #ffffff; /* Make the link itself stand out slightly */
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .system-alert a:hover {
+      text-shadow: 0 0 15px #ffffff;
+    }
+
+    @keyframes alert-glow {
+      from { text-shadow: 0 0 4px #ff006680; }
+      to { text-shadow: 0 0 10px #ff0066; }
+    }
+    /* --- END NEW CSS --- */
+
   </style>
 </head>
 <body>
@@ -82,9 +112,17 @@
     <div class="cmd prompt"><a href="intel.html">./intel_feed</a> <span class="comment">// Timeline & Achievements</span></div>
     <div class="cmd prompt"><a href="github.html">./access --github</a> <span class="comment">// GitHub & Links</span></div>
     <div class="cmd prompt"><a href="contact.html">./contact -t stealth</a> <span class="comment">// Contact Me</span></div>
-    <div class="cmd prompt"><a href="decrypt.html">./decrypt hidden.log</a> <span class="comment">// Secret File</span></div>
+    <div class="cmd prompt"><a href="decrypt.html">./protocol --execute</a> <span class="comment">// Core Competencies & Tech Stack</span></div>
+  
 
     <div class="cmd prompt"><span class="cursor"></span></div>
+
+    <!-- --- NEW HTML FOR THE HIDDEN LINK --- -->
+    <div class="system-alert">
+      <span>CRITICAL: Unstable module detected. Quarantined in </span><a href="blackbox.html">[./blackbox]</a>
+    </div>
+    <!-- --- END NEW HTML --- -->
+
   </div>
 </body>
 </html>
