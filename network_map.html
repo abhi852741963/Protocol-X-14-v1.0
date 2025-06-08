@@ -2,194 +2,125 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="description" content="Protocol X-14: A global map of Abhinav Ram M.S.'s online presence and digital footprint." />
-  <meta name="author" content="Abhinav Ram MS" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Protocol X-14 // Network Map</title>
-
-  <!-- Use specific versions to avoid breaking changes -->
-  <script src="https://unpkg.com/three@0.150.1/build/three.min.js" defer></script>
-  <script src="https://unpkg.com/globe.gl@2.33.0/dist/globe.gl.min.js" defer></script>
-
   <style>
     body {
       background-color: #0a0a0a;
       color: #00ffcc;
       font-family: 'Courier New', monospace;
-      padding: 40px;
       margin: 0;
-      overflow-x: hidden;
+      padding: 40px;
     }
+
     .terminal {
       border: 2px solid #00ffcc;
+      background: #000000;
+      box-shadow: 0 0 20px #00ffcc80;
       padding: 20px;
       max-width: 900px;
       margin: auto;
-      background-color: #000000;
-      box-shadow: 0 0 20px #00ffcc80;
     }
+
     .title {
       font-size: 24px;
       color: #ffffff;
-      margin-bottom: 20px;
       border-bottom: 1px dashed #00ffcc55;
       padding-bottom: 10px;
+      margin-bottom: 20px;
     }
+
     .comment {
       color: #888;
+      margin-bottom: 10px;
     }
-    .globe-container {
-      position: relative;
-      width: 100%;
-      height: 500px;
-      margin: 20px 0;
-      cursor: grab;
-      overflow: hidden;
-      background-color: #000000;
-      border: 1px solid #00ffcc33;
+
+    .node-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
     }
-    .globe-container:active {
-      cursor: grabbing;
-    }
-    .globe-label {
-      position: absolute;
-      font-size: 16px;
-      font-weight: bold;
-      color: #ffffff;
-      text-shadow: 0 0 8px #00ffcc;
-      pointer-events: none;
-      transform: translateX(-50%);
-    }
-    .log-table {
-      width: 100%;
-      margin-top: 30px;
-      border-collapse: collapse;
-    }
-    .log-table th, .log-table td {
+
+    .node {
+      background-color: #0d0d0d;
       border: 1px solid #00ffcc55;
-      padding: 10px 15px;
-      text-align: left;
-    }
-    .log-table th {
+      padding: 15px;
+      text-align: center;
       color: #ffffff;
-      background-color: #00ffcc1a;
-    }
-    .clickable-link {
-      color: #ffffff;
-      font-weight: bold;
+      position: relative;
+      transition: all 0.2s ease;
       cursor: pointer;
-      display: inline-block;
-      padding: 2px 5px;
-      background-color: #00ffcc22;
-      border: 1px solid transparent;
-      transition: all 0.2s ease-in-out;
+      box-shadow: 0 0 10px #00ffcc22;
     }
-    .clickable-link:hover {
-      background-color: #ff0066;
-      color: #ffffff;
-      text-shadow: 0 0 8px #ffffff;
+
+    .node:hover {
+      background-color: #111;
       border-color: #ff0066;
+      box-shadow: 0 0 10px #ff0066;
+      text-shadow: 0 0 5px #ffffff;
     }
+
+    .node::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      bottom: -5px;
+      left: -5px;
+      right: -5px;
+      border: 1px dashed #00ffcc33;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 0.1; }
+    }
+
     .footer-nav {
       margin-top: 30px;
       border-top: 1px dashed #00ffcc55;
       padding-top: 15px;
     }
+
+    a {
+      color: #00ffcc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff0066;
+    }
   </style>
 </head>
 <body>
-  <div class="terminal">
-    <div class="title">[NETWORK_MAP - GLOBAL PRESENCE]</div>
-    <div class="comment">// Cyberpunk globe initialized. Rendering with custom shader material.</div>
-    <div class="comment">// Drag to explore. Scroll to zoom.</div>
 
-    <div id="globeViz" class="globe-container"></div>
+<div class="terminal">
+  <div class="title">[NETWORK_CONSOLE // CYBERPUNK NODES]</div>
+  <div class="comment">// Globe rendering skipped. Switching to terminal grid mode.</div>
+  <div class="comment">// Click on a node to access endpoint.</div>
 
-    <div class="title">[CONNECTION DATA LOG]</div>
-    <table class="log-table">
-      <thead>
-        <tr>
-          <th>[Location]</th>
-          <th>[Designation]</th>
-          <th>[Access Point]</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>India</td>
-          <td>Home Base</td>
-          <td><span class="comment">// Physical Coordinates</span></td>
-        </tr>
-        <tr>
-          <td>Spain</td>
-          <td>Chess.com Profile</td>
-          <td><span class="clickable-link" data-link="https://www.chess.com/member/elreypulga19">./access --chess</span></td>
-        </tr>
-        <tr>
-          <td>USA</td>
-          <td>Tinkercad Profile</td>
-          <td><span class="clickable-link" data-link="https://www.tinkercad.com/users/2y88rVNq5Sm-abhinavramms5">./access --tinkercad</span></td>
-        </tr>
-        <tr>
-          <td>USA</td>
-          <td>GitHub Repository</td>
-          <td><span class="clickable-link" data-link="https://github.com/abhi852741963">./access --github</span></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="footer-nav">
-      <a href="index.html">./return --menu</a>
+  <div class="node-grid">
+    <div class="node" onclick="window.open('https://www.chess.com/member/elreypulga19', '_blank')">
+      Spain<br><strong>Chess.com</strong>
+    </div>
+    <div class="node" onclick="window.open('https://www.tinkercad.com/users/2y88rVNq5Sm-abhinavramms5', '_blank')">
+      USA<br><strong>Tinkercad</strong>
+    </div>
+    <div class="node" onclick="window.open('https://github.com/abhi852741963', '_blank')">
+      USA<br><strong>GitHub</strong>
+    </div>
+    <div class="node">
+      India<br><strong>Home Base</strong><br><span style="font-size:12px; color:#888">// Physical only</span>
     </div>
   </div>
 
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const gData = [
-        { lat: 20.5937, lng: 78.9629, label: 'HOME', color: '#ff0066' },
-        { lat: 40.4168, lng: -3.7038, label: 'Chess.com', color: '#00ffcc' },
-        { lat: 38.9637, lng: -95.7129, label: 'Tinkercad / GitHub', color: '#00ffcc' }
-      ];
+  <div class="footer-nav">
+    <a href="index.html">./return --menu</a>
+  </div>
+</div>
 
-      const globe = Globe()(document.getElementById('globeViz'))
-        .globeMaterial(
-          new THREE.MeshPhongMaterial({
-            color: '#020218',    // Dark navy blue
-            shininess: 40,
-            specular: new THREE.Color('#00ffcc')
-          })
-        )
-        .backgroundColor('#00000000') // Transparent background
-        .atmosphereColor('#00ffcc')
-        .atmosphereAltitude(0.25)
-        .htmlElementsData(gData)
-        .htmlElement(d => {
-          const el = document.createElement('div');
-          el.innerHTML = d.label;
-          el.className = 'globe-label';
-          el.style.color = d.color;
-          if (d.label === 'HOME') {
-            el.style.textShadow = '0 0 8px #ff0066, 0 0 12px #ff0066';
-          }
-          return el;
-        })
-        .ringsData(gData)
-        .ringColor(d => d.color)
-        .ringMaxRadius(4)
-        .ringPropagationSpeed(3)
-        .ringRepeatPeriod(800);
-
-      globe.controls().autoRotate = true;
-      globe.controls().autoRotateSpeed = 0.4;
-      globe.controls().enableZoom = true;
-      globe.pointOfView({ altitude: 3.5 }, 1000);
-
-      document.querySelectorAll('.clickable-link').forEach(link => {
-        link.addEventListener('click', () => {
-          window.open(link.dataset.link, '_blank');
-        });
-      });
-    });
-  </script>
 </body>
 </html>
