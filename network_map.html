@@ -5,12 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Protocol X-14 // Network Map</title>
   <style>
+    /* --- Base Styles (Your Original CSS) --- */
     body {
       background-color: #0a0a0a;
       color: #00ffcc;
       font-family: 'Courier New', monospace;
       margin: 0;
       padding: 40px;
+    }
+    
+    /* --- NEW: Scanline Overlay for CRT Effect --- */
+    body::after {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none; /* Allows clicking through the overlay */
+      z-index: 100;
     }
 
     .terminal {
@@ -28,11 +49,14 @@
       border-bottom: 1px dashed #00ffcc55;
       padding-bottom: 10px;
       margin-bottom: 20px;
+      /* --- NEW: Flicker Animation --- */
+      animation: flicker 4s linear infinite;
     }
 
     .comment {
       color: #888;
       margin-bottom: 10px;
+      height: 1.2em; /* Reserve space for typewriter */
     }
 
     .node-grid {
@@ -50,16 +74,33 @@
       color: #ffffff;
       position: relative;
       transition: all 0.2s ease;
-      cursor: pointer;
       box-shadow: 0 0 10px #00ffcc22;
+      min-height: 70px; /* Ensure nodes have same height */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .node.clickable-node {
+      cursor: pointer;
     }
 
-    .node:hover {
+    .node.clickable-node:hover {
       background-color: #111;
       border-color: #ff0066;
       box-shadow: 0 0 10px #ff0066;
       text-shadow: 0 0 5px #ffffff;
     }
+    
+    /* --- NEW: Style for the connecting state --- */
+    .node.connecting {
+      background-color: #073642;
+      color: #00ffc6;
+      font-family: 'Courier New', Courier, monospace;
+      pointer-events: none; /* Prevent clicks during animation */
+    }
+
 
     .node::after {
       content: '';
@@ -70,12 +111,6 @@
       right: -5px;
       border: 1px dashed #00ffcc33;
       animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { opacity: 0.1; }
-      50% { opacity: 0.4; }
-      100% { opacity: 0.1; }
     }
 
     .footer-nav {
@@ -93,23 +128,60 @@
       color: #ff0066;
       text-shadow: 0 0 10px #ff0066;
     }
+    
+    /* --- NEW: Blinking Cursor --- */
+    .blinking-cursor {
+      display: inline-block;
+      background-color: #00ffcc;
+      width: 10px;
+      height: 1.2rem;
+      animation: blink 1s steps(2, start) infinite;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+
+    /* --- NEW: Keyframe Animations --- */
+    @keyframes pulse {
+      0% { opacity: 0.1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 0.1; }
+    }
+    
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
+      }
+      20%, 24%, 55% {
+        opacity: 0.7;
+        text-shadow: none;
+      }
+    }
+    
+    @keyframes blink {
+      to {
+        visibility: hidden;
+      }
+    }
   </style>
 </head>
 <body>
 
 <div class="terminal">
   <div class="title">[NETWORK_CONSOLE // CYBERPUNK NODES]</div>
-  <div class="comment">// Globe rendering skipped. Switching to terminal grid mode.</div>
-  <div class="comment">// Click on a node to access endpoint.</div>
+  <!-- NOTE: Text content is removed from here and added by the typewriter JS -->
+  <p id="line1" class="comment"></p>
+  <p id="line2" class="comment"></p>
 
   <div class="node-grid">
-    <div class="node" onclick="window.open('https://www.chess.com/member/elreypulga19', '_blank')">
+    <!-- NOTE: Removed onclick and added data-link attribute + clickable-node class -->
+    <div class="node clickable-node" data-link="https://www.chess.com/member/elreypulga19">
       Spain<br><strong>Chess.com</strong>
     </div>
-    <div class="node" onclick="window.open('https://www.tinkercad.com/users/2y88rVNq5Sm-abhinavramms5', '_blank')">
+    <div class="node clickable-node" data-link="https://www.tinkercad.com/users/2y88rVNq5Sm-abhinavramms5">
       USA<br><strong>Tinkercad</strong>
     </div>
-    <div class="node" onclick="window.open('https://github.com/abhi852741963', '_blank')">
+    <div class="node clickable-node" data-link="https://github.com/abhi852741963">
       USA<br><strong>GitHub</strong>
     </div>
     <div class="node">
@@ -118,9 +190,79 @@
   </div>
 
   <div class="footer-nav">
-    <a href="index.html">./return --menu</a>
+    <!-- NOTE: Added span for the blinking cursor -->
+    <a href="index.html">./return --menu<span class="blinking-cursor"></span></a>
   </div>
 </div>
+
+
+<!-- ======================================================= -->
+<!-- =================== NEW JAVASCRIPT ==================== -->
+<!-- ======================================================= -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+  // --- 1. TYPEWRITER EFFECT ---
+  const linesToType = [
+    { el: '#line1', text: '// Globe rendering skipped. Switching to terminal grid mode.', delay: 30 },
+    { el: '#line2', text: '// Click on a node to access endpoint.', delay: 40, startDelay: 2000 } // Start after the first line finishes
+  ];
+
+  function typeWriter(line, index) {
+    const element = document.querySelector(line.el);
+    if (!element) return;
+    if (index < line.text.length) {
+      element.innerHTML += line.text.charAt(index);
+      setTimeout(() => typeWriter(line, index + 1), line.delay);
+    }
+  }
+
+  let totalDelay = 0;
+  linesToType.forEach(line => {
+    setTimeout(() => {
+        typeWriter(line, 0);
+    }, totalDelay + (line.startDelay || 0));
+    totalDelay += line.text.length * line.delay;
+  });
+
+  // --- 2. "CONNECTING..." NODE CLICK EFFECT ---
+  const clickableNodes = document.querySelectorAll('.clickable-node');
+  
+  clickableNodes.forEach(node => {
+    const originalContent = node.innerHTML;
+    const href = node.dataset.link;
+    
+    node.addEventListener('click', function(event) {
+      if (this.classList.contains('connecting')) return;
+      this.classList.add('connecting');
+      
+      let dots = '';
+      this.innerHTML = 'Establishing connection';
+      
+      const interval = setInterval(() => {
+        dots += '.';
+        if (dots.length > 3) dots = '';
+        this.innerHTML = 'Establishing connection' + dots;
+      }, 400);
+
+      setTimeout(() => {
+        clearInterval(interval);
+        this.innerHTML = '<strong>ACCESS GRANTED</strong>';
+        
+        setTimeout(() => {
+          window.open(href, '_blank');
+          
+          setTimeout(() => {
+            this.innerHTML = originalContent;
+            this.classList.remove('connecting');
+          }, 1000);
+
+        }, 700);
+      }, 2500); // Connection time
+    });
+  });
+});
+</script>
 
 </body>
 </html>
