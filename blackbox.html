@@ -175,7 +175,7 @@
         function print(message, className = '') {
             const line = document.createElement('div');
             line.className = `output-line ${className}`;
-            line.innerHTML = message.replace(/ /g, '&nbsp;'); // Preserve spaces
+            line.innerHTML = message.replace(/ /g, ' '); // Preserve spaces
             output.appendChild(line);
         }
         
