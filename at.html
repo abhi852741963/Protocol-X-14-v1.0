@@ -10,6 +10,7 @@
             color: #00ffcc;
             font-family: 'Courier New', monospace;
             padding: 20px;
+            text-align: center; /* Center the content including the back button */
         }
 
         .terminal {
@@ -21,6 +22,7 @@
             box-shadow: 0 0 20px #00ffcc80;
             overflow-y: auto;
             height: 80vh; /* Use vh for viewport height responsiveness */
+            text-align: left; /* Reset text-align for terminal content */
         }
 
         .header {
@@ -29,7 +31,6 @@
             margin-bottom: 10px;
         }
         
-        /* This pseudo-element is for general output lines, not for user input */
         .line::before {
             content: "> ";
             color: #00ffcc;
@@ -60,7 +61,6 @@
             white-space: pre;
         }
         
-        /* Used for the command text itself */
         .user-input-text {
             color: #ffffff;
             white-space: pre-wrap;
@@ -101,6 +101,24 @@
 
         .error {
             color: #ff0066; /* What went wrong is an error */
+        }
+
+        /* --- STYLE FOR THE RETURN BUTTON --- */
+        .back {
+            margin-top: 30px;
+            display: inline-block;
+            color: #00ffcc;
+            text-decoration: none;
+            font-size: 16px;
+            border: 1px solid #00ffcc;
+            padding: 8px 15px;
+        }
+
+        .back:hover {
+            color: #0a0a0a;
+            background-color: #00ffcc;
+            text-shadow: none;
+            box-shadow: 0 0 15px #00ffcc;
         }
 
     </style>
@@ -154,6 +172,9 @@
     </div>
 
 </div>
+
+<!-- === RETURN BUTTON ADDED HERE === -->
+<a href="index.html" class="back"><< Return to Command Menu</a>
 
 </body>
 </html>
