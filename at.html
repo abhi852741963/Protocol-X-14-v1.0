@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Autopsy</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #00ffcc;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+        }
+
+        .terminal {
+            border: 2px solid #00ffcc;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            background-color: #0a0a0a;
+            box-shadow: 0 0 20px #00ffcc80;
+            overflow-y: auto;
+            height: 80vh; /* Use vh for viewport height responsiveness */
+        }
+
+        .header {
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        /* This pseudo-element is for general output lines, not for user input */
+        .line::before {
+            content: "> ";
+            color: #00ffcc;
+            white-space: pre;
+        }
+
+        .line {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-line {
+            margin-bottom: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .prompt {
+            color: #00ffcc;
+            margin-right: 10px;
+            white-space: pre;
+        }
+        
+        /* Used for the command text itself */
+        .user-input-text {
+            color: #ffffff;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .blink {
+            animation: blink 1s step-start infinite;
+            background-color: #00ffcc;
+            width: 10px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            50% {
+                background: transparent;
+            }
+        }
+        
+        .project-block {
+            margin-top: 15px;
+            margin-bottom: 25px;
+            padding-left: 10px;
+            border-left: 1px solid #00ffcc44;
+        }
+        
+        .project-title {
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .success {
+            color: #ffffff; /* Lesson learned is a positive outcome */
+        }
+
+        .error {
+            color: #ff0066; /* What went wrong is an error */
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="terminal">
+    <div class="input-line">
+        <span class="prompt">root@localhost:~$</span>
+        <span class="user-input-text">./autopsy // Failed Project Case Studies</span>
+    </div>
+    
+    <p class="line">Initiating forensic analysis of abandoned protocols...</p>
+    <br>
+    <p class="output-line">Not every mission succeeds — here are some classified operations that encountered critical errors or were aborted. Every failure here taught me something vital.</p>
+    
+    <div class="project-block">
+        <p class="project-title">[1] Voice-Controlled Home Automation (2022)</p>
+        <p class="output-line"><strong>Objective:</strong> Build a home automation system controlled by voice.</p>
+        <p class="output-line"><strong class="error">What went wrong:</strong> Incomplete voice recognition implementation, poor hardware relay response.</p>
+        <p class="output-line"><strong class="success">Lesson learned:</strong> Start small with one function before scaling, and test modules separately.</p>
+    </div>
+
+    <div class="project-block">
+        <p class="project-title">[2] AI Chatbot with Sentiment Analysis</p>
+        <p class="output-line"><strong>Objective:</strong> Create a smart chatbot that adapts based on mood.</p>
+        <p class="output-line"><strong class="error">What went wrong:</strong> NLP model was unstable; responses were generic and repetitive.</p>
+        <p class="output-line"><strong class="success">Lesson learned:</strong> Use pre-trained models initially instead of training from scratch; understand limitations of sentiment detection.</p>
+    </div>
+
+    <div class="project-block">
+        <p class="project-title">[3] Bluetooth-Controlled Car (Arduino)</p>
+        <p class="output-line"><strong>Objective:</strong> Build an RC car with Bluetooth commands.</p>
+        <p class="output-line"><strong class="error">What went wrong:</strong> Cheap Bluetooth module kept disconnecting; power supply wasn’t stable.</p>
+        <p class="output-line"><strong class="success">Lesson learned:</strong> Always test hardware in parts, and use reliable components for communication modules.</p>
+    </div>
+    
+    <div class="project-block">
+        <p class="project-title">[4] Jarvis v0.5 (Old Build)</p>
+        <p class="output-line"><strong>Objective:</strong> Create an assistant that reads out emails and weather.</p>
+        <p class="output-line"><strong class="error">What went wrong:</strong> Speech-to-text failed often; poor API integration.</p>
+        <p class="output-line"><strong class="success">Lesson learned:</strong> Don’t skip documentation; properly handle errors and timeouts with APIs.</p>
+    </div>
+
+    <br>
+    <p class="line">End of autopsy. Failures documented. Lessons assimilated into core protocols.</p>
+
+    <div class="input-line">
+        <span class="prompt">root@localhost:~$</span>
+        <span class="blink"></span>
+    </div>
+
+</div>
+
+</body>
+</html>
